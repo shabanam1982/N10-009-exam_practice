@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Domain 1 — Networking Concepts — Practice Exam & Report Card</title>
+<style>
+  :root {
+    --navy: #1c2a3a;
+    --paper: #f6f5f1;
+    --card: #ffffff;
+    --line: #dcd8cf;
+    --accent: #2b4c7e;
+    --accent-soft: #e7edf5;
+    --good: #2f7d4f;
+    --good-bg: #e7f3ec;
+    --bad: #b3462c;
+    --bad-bg: #fbebe6;
+    --mono: "Courier New", Courier, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 28px 14px; background: var(--paper); color: var(--navy);
+    font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    display: flex; justify-content: center;
+  }
+  .wrap { width: 100%; max-width: 620px; }
+  .eyebrow { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 6px; }
+  h1 { font-size: 24px; margin: 0 0 4px 0; line-height: 1.25; }
+  .sub { color: #5b6472; font-size: 14.5px; margin-bottom: 20px; line-height: 1.5; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 24px; }
+
+  /* --- start screen --- */
+  label { display: block; font-size: 13.5px; color: #5b6472; margin-bottom: 6px; font-family: var(--mono); }
+  input[type="text"], input[type="email"] {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px;
+    font-size: 15px; margin-bottom: 16px; font-family: inherit;
+  }
+  .start-btn, .print-btn {
+    display: inline-block; padding: 12px 20px; background: var(--accent); color: #fff;
+    border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;
+  }
+  .print-btn { background: var(--navy); margin-top: 10px; }
+  .action-btn {
+    display: inline-block; padding: 12px 18px; border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; margin-right: 8px; color: #fff;
+  }
+  .email-btn { background: var(--accent); }
+  .email-note { font-size: 12px; color: #8a92a0; margin-top: 8px; line-height: 1.5; }
+
+  /* --- top bar: timer + question counter --- */
+  #topBar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--navy); color: #fff; border-radius: 10px 10px 0 0;
+    padding: 12px 18px;
+  }
+  .q-count { font-family: var(--mono); font-size: 13px; }
+  .timer { font-family: var(--mono); font-size: 20px; font-weight: 700; letter-spacing: 0.03em; }
+  .timer.low-time { color: #ff9d80; }
+
+  .progress-track { height: 6px; background: var(--accent-soft); border-radius: 0; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.25s ease; }
+
+  .quizCard { border-top: none; border-radius: 0 0 10px 10px; }
+
+  .type-badge {
+    display: inline-block; font-family: var(--mono); font-size: 12px; color: var(--accent);
+    background: var(--accent-soft); padding: 4px 9px; border-radius: 5px; margin-bottom: 12px;
+  }
+  .question { font-size: 17.5px; font-weight: 600; line-height: 1.45; margin-bottom: 14px; }
+
+  .opt {
+    display: block; width: 100%; text-align: left; padding: 12px 15px; margin-bottom: 9px;
+    border: 1px solid var(--line); border-radius: 8px; background: var(--card);
+    font-size: 14.5px; color: var(--navy); cursor: pointer;
+  }
+  .opt:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .opt.selected { border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+
+  .counter-text { font-size: 13px; color: #5b6472; margin-bottom: 10px; font-family: var(--mono); }
+
+  #navBar { display: flex; justify-content: flex-end; margin-top: 14px; }
+  button.nav {
+    padding: 12px 18px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent);
+    color: #fff; font-size: 14.5px; font-weight: 600; cursor: pointer;
+  }
+
+  /* --- report card --- */
+  .report-header { margin-bottom: 18px; }
+  .report-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+  .report-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+  .report-table td { padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+  .report-table td:first-child { color: #5b6472; font-family: var(--mono); font-size: 12.5px; width: 40%; }
+  .report-table td:last-child { font-weight: 600; }
+  .report-verdict { font-size: 14.5px; color: #3a4250; margin-bottom: 4px; }
+
+  .review-item { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
+  .review-correct { border-left: 4px solid var(--good); }
+  .review-wrong { border-left: 4px solid var(--bad); }
+  .review-q { font-weight: 600; font-size: 14.5px; margin-bottom: 6px; }
+  .review-line { font-size: 13.5px; margin-bottom: 3px; color: #3a4250; }
+  .review-explain { font-size: 13px; color: #5b6472; margin-top: 6px; line-height: 1.5; }
+
+  .hidden { display: none !important; }
+
+  /* --- clean printable version --- */
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #fff; padding: 0; }
+    .card { border: none; padding: 0; }
+    .review-item { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- START SCREEN -->
+  <div id="startScreen">
+    <div class="eyebrow">MODULE 1 · NETWORKING CONCEPTS · PRACTICE EXAM</div>
+    <h1>Domain 1 — Networking Concepts</h1>
+    <div class="sub">
+      29 questions (now covering all 8 of Domain 1's sub-objectives, 1.1–1.8), one at a time, in order —
+      timed at the real exam's pace (1 minute per question, 29 minutes total). At the end you'll get a
+      full report card with every answer explained.
+    </div>
+    <div class="card">
+      <label for="nameInput">Student name</label>
+      <input type="text" id="nameInput" placeholder="Enter your name">
+      <label for="emailInput">Student email (for sending your report)</label>
+      <input type="email" id="emailInput" placeholder="you@example.com">
+      <label for="phoneInput">Contact number</label>
+      <input type="text" id="phoneInput" placeholder="e.g. 98765 43210">
+      <button class="start-btn" id="startBtn">Start Exam →</button>
+    </div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quizScreen" class="hidden">
+    <div class="eyebrow no-print">MODULE 1 · NETWORKING CONCEPTS</div>
+    <h1 class="no-print">Domain 1 — Networking Concepts</h1>
+    <div id="topBar" class="no-print">
+      <div class="q-count" id="qCount">Question 1 of 25</div>
+      <div class="timer" id="timer">29:00</div>
+    </div>
+    <div class="progress-track no-print"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="card quizCard">
+      <div id="quizArea"></div>
+    </div>
+    <div id="navBar" class="no-print">
+      <button class="nav" id="nextBtn">Next question →</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const MODULE_NAME = "Domain 1 — Networking Concepts";
+  const TUTOR_EMAIL = "shabanam5782@gmail.com";
+
+  const questions = [
+    { type:"single", q:"Which OSI layer is responsible for logical addressing and choosing the best path for data to travel across networks?",
+      options:["Physical","Data Link","Network","Transport"], correct:2,
+      explain:"Layer 3 (Network) handles IP addressing and routing decisions — choosing the best path across networks." },
+
+    { type:"single", q:"A technician confirms a network cable is properly seated and the port's link light is on. Which OSI layer are they working at?",
+      options:["Physical","Network","Session","Application"], correct:0,
+      explain:"Physical connectivity — cables, ports, link lights — is Layer 1 (Physical)." },
+
+    { type:"single", q:"At which OSI layer is data referred to as 'segments'?",
+      options:["Network","Transport","Session","Data Link"], correct:1,
+      explain:"Layer 4 (Transport) packages data into segments, using protocols like TCP and UDP." },
+
+    { type:"multi", q:"Which TWO of the following statements about the OSI model are TRUE?",
+      options:["Encapsulation adds a header at each layer moving down the stack","Layer 7 is the Physical layer","The Transport layer handles reliable delivery via TCP","MAC addresses are used at Layer 3","Routers operate at Layer 2"], correct:[0,2],
+      explain:"Encapsulation does add a header at each layer going down the stack, and TCP's reliable delivery is a Layer 4 (Transport) function. Layer 7 is Application (not Physical), MAC addresses belong to Layer 2 (not Layer 3), and routers are Layer 3 devices (not Layer 2)." },
+
+    { type:"single", q:"A device sits inline on the network, inspects traffic for known attack patterns, and automatically drops any matching traffic before it reaches the internal network. Which device is this?",
+      options:["IDS (Intrusion Detection System)","IPS (Intrusion Prevention System)","Load balancer","Proxy"], correct:1,
+      explain:"An IDS only detects and alerts. An IPS sits inline and actively blocks matching traffic — the word 'automatically drops' is the giveaway." },
+
+    { type:"single", q:"A team needs shared, file-level storage that multiple employees can access over the network, similar to a shared drive. Which technology fits best?",
+      options:["NAS (Network Attached Storage)","SAN (Storage Area Network)","CDN","VPC"], correct:0,
+      explain:"NAS provides file-level storage over a normal network connection. SAN provides block-level storage, usually for servers, over a dedicated high-speed network." },
+
+    { type:"single", q:"A company wants video-call traffic to never be delayed by routine file downloads happening on the same internet link. Which function should be configured?",
+      options:["QoS (Quality of Service)","TTL","NAT","VPN"], correct:0,
+      explain:"QoS lets you prioritize latency-sensitive traffic (like video calls) ahead of less time-sensitive traffic (like downloads)." },
+
+    { type:"multi", q:"According to how CompTIA categorizes Layer concepts, which TWO of the following are considered 'functions' rather than physical or virtual appliances?",
+      options:["VPN","Router","QoS","Switch","Firewall"], correct:[0,2],
+      explain:"VPN and QoS are functions a network can perform. Router, switch, and firewall are physical or virtual appliances that perform those functions." },
+
+    { type:"multi", q:"Which TWO of the following are cloud SERVICE models (describing what's delivered), rather than deployment models (describing who hosts it)?",
+      options:["SaaS","Public","PaaS","Hybrid","Private"], correct:[0,2],
+      explain:"SaaS and PaaS (along with IaaS) are service models. Public, Private, and Hybrid describe the deployment model — who owns and hosts the cloud." },
+
+    { type:"single", q:"An office uses a browser-based email service and never installs, patches, or manages any server or software for it themselves. Which cloud service model is this?",
+      options:["IaaS","PaaS","SaaS","NFV"], correct:2,
+      explain:"SaaS (Software as a Service) means the provider manages everything — the customer just uses the finished application." },
+
+    { type:"single", q:"A company builds its own application and deploys it on a cloud provider's platform. The provider manages the operating system and runtime, but the company still manages its own application code. Which service model is this?",
+      options:["SaaS","PaaS","IaaS","VPC"], correct:1,
+      explain:"PaaS (Platform as a Service) gives you a ready-to-use platform to run your own code on, without managing the underlying OS." },
+
+    { type:"single", q:"A cloud provider hosts several unrelated companies' data on the same shared physical hardware, while keeping each company's resources logically separated. What is this called?",
+      options:["Elasticity","Scalability","Multitenancy","Virtualization"], correct:2,
+      explain:"Multitenancy means multiple separate customers ('tenants') share the same underlying infrastructure." },
+
+    { type:"single", q:"Instead of buying a dedicated physical firewall appliance, a company runs firewall software on a standard virtualized server. Which concept does this describe?",
+      options:["SD-WAN","NFV (Network Functions Virtualization)","VPC","IaC"], correct:1,
+      explain:"NFV replaces dedicated hardware appliances (firewalls, routers, etc.) with software running on general-purpose virtual machines." },
+
+    { type:"single", q:"A company wants a dedicated, private, high-bandwidth link straight to its cloud provider, kept separate from the public internet — but encryption isn't included by default. Which option is this?",
+      options:["Site-to-site VPN","Direct Connect","Internet gateway","NAT gateway"], correct:1,
+      explain:"A Direct Connect (dedicated cloud connection) gives a private physical link to the cloud provider. Unlike a VPN, it does not automatically encrypt traffic." },
+
+    { type:"single", q:"An administrator wants users to submit outgoing mail from their email client over an encrypted connection. Which port should be opened?",
+      options:["25","110","143","587"], correct:3,
+      explain:"Port 587 is the standard port for secure/encrypted mail submission (SMTPS)." },
+
+    { type:"single", q:"An IT support technician needs to remotely view and control a user's Windows desktop over the network. Which port is associated with this?",
+      options:["22","443","3389","5060"], correct:2,
+      explain:"Port 3389 is used by RDP (Remote Desktop Protocol)." },
+
+    { type:"single", q:"A VoIP phone system uses a protocol to start, manage, and end voice or video calls between devices. Which protocol (and port range) handles this?",
+      options:["SIP (5060/5061)","SNMP (161/162)","NTP (123)","LDAP (389)"], correct:0,
+      explain:"SIP (Session Initiation Protocol) handles call setup and teardown for VoIP and video calls." },
+
+    { type:"single", q:"A technician needs to perform an encrypted directory lookup against a company's identity server. Which port should be used?",
+      options:["389","636","445","514"], correct:1,
+      explain:"Port 636 is LDAPS — LDAP over SSL/TLS, the encrypted version of port 389 (plain LDAP)." },
+
+    { type:"single", q:"A switch needs to deliver one video stream to a specific group of subscribed devices, without sending a copy to every device on the network. Which traffic type is this?",
+      options:["Unicast","Broadcast","Multicast","Anycast"], correct:2,
+      explain:"Multicast sends one stream to a defined group of interested receivers — not everyone, and not just one." },
+
+    { type:"single", q:"A request can be answered by any one of several geographically distributed servers, and the network automatically sends it to the nearest one. Which traffic type is this?",
+      options:["Unicast","Multicast","Broadcast","Anycast"], correct:3,
+      explain:"Anycast routes a request to the 'nearest' (by network path) of several servers sharing the same address — commonly used by DNS root servers." },
+
+    { type:"multi", q:"Which TWO of the following operate directly at the IP layer using their own protocol number, rather than riding inside a TCP or UDP segment?",
+      options:["ICMP","HTTP","GRE","DNS","FTP"], correct:[0,2],
+      explain:"ICMP (used by ping) and GRE (a tunneling protocol) both sit directly on top of IP. HTTP, DNS, and FTP all run inside TCP or UDP." },
+
+    { type:"single", q:"A data center needs to run a cable between two buildings 2km apart, and the signal needs to travel that distance without a repeater. Which cable type fits best?",
+      options:["UTP copper","Coaxial","Single-mode fiber","Multimode fiber"], correct:2,
+      explain:"Single-mode fiber uses one straight light path and supports the longest distances without signal loss — ideal for 2km+ runs." },
+
+    { type:"single", q:"A technician wants to connect two switches inside the same rack, under 5 meters apart, without paying for separate optical transceivers. Which cable type fits best?",
+      options:["Single-mode fiber","Direct Attach Copper (DAC)","Multimode fiber","Coaxial"], correct:1,
+      explain:"DAC cables have connectors built onto both ends and are a cheap, simple option for short, in-rack connections." },
+
+    { type:"single", q:"Which fiber connector type uses a small push-pull latch and is common in high-density patch panels where space is tight?",
+      options:["SC","LC","ST","BNC"], correct:1,
+      explain:"LC (Local Connector) is smaller than SC, so more of them fit in the same panel space — common in dense fiber installs." },
+
+    { type:"single", q:"A data center design connects every 'spine' switch directly to every 'leaf' switch, so any two devices are always the same number of hops apart. Which topology is this?",
+      options:["Hub-and-spoke","Spine-and-leaf","Point-to-point","Ring"], correct:1,
+      explain:"Spine-and-leaf is built for consistent, low-latency, high-bandwidth paths between any two devices — common in modern data centers." },
+
+    { type:"single", q:"Traffic flowing between two servers within the same data center row, rather than out toward the internet or end users, is best described as:",
+      options:["North-south traffic","East-west traffic","Point-to-point traffic","Broadcast traffic"], correct:1,
+      explain:"East-west traffic moves within the data center (server-to-server). North-south traffic moves in and out, toward users or the internet." },
+
+    { type:"single", q:"A network needs to support up to 14 usable host addresses on one subnet, with as little address space wasted as possible. Which subnet mask should be used?",
+      options:["255.255.255.240","255.255.255.224","255.255.255.192","255.255.255.248"], correct:0,
+      explain:"255.255.255.240 is a /28 mask, leaving 4 host bits: 2⁴ − 2 = 14 usable addresses — exactly enough, with none wasted." },
+
+    { type:"single", q:"A laptop fails to reach a DHCP server and ends up with an IP address of 169.254.32.10. What does this indicate?",
+      options:["A valid public address from the ISP","An APIPA address, meaning DHCP failed","A properly configured static IP","A translated IPv6 address"], correct:1,
+      explain:"169.254.x.x is the APIPA range — Windows assigns it automatically when a device can't reach a DHCP server." },
+
+    { type:"single", q:"An organization wants to combine WAN routing, security policy enforcement, and traffic inspection into one centrally managed, cloud-delivered service for all of its branch offices. Which concept best matches this?",
+      options:["VXLAN","SASE (Secure Access Service Edge)","IaC","A single on-site firewall"], correct:1,
+      explain:"SASE bundles networking and security functions (like SD-WAN and firewall policy) into one cloud-delivered service, managed centrally." }
+  ];
+
+  let studentName = "Student";
+  let studentEmail = "";
+  let studentPhone = "";
+  let current = 0;
+  let answers = new Array(questions.length).fill(null);
+  const totalSeconds = questions.length * 60; // 1 minute per question — same pace as the real exam
+  let timeLeft = totalSeconds;
+  let timerId = null;
+  let finished = false;
+
+  const startScreen = document.getElementById("startScreen");
+  const quizScreen = document.getElementById("quizScreen");
+  const nameInput = document.getElementById("nameInput");
+  const emailInput = document.getElementById("emailInput");
+  const phoneInput = document.getElementById("phoneInput");
+  const startBtn = document.getElementById("startBtn");
+
+  const timerEl = document.getElementById("timer");
+  const qCountEl = document.getElementById("qCount");
+  const progressFill = document.getElementById("progressFill");
+  const quizArea = document.getElementById("quizArea");
+  const nextBtn = document.getElementById("nextBtn");
+
+  startBtn.onclick = function () {
+    const typed = nameInput.value.trim();
+    if (typed.length > 0) studentName = typed;
+    studentEmail = emailInput.value.trim();
+    studentPhone = phoneInput.value.trim();
+    startScreen.classList.add("hidden");
+    quizScreen.classList.remove("hidden");
+    renderQuestion();
+    startTimer();
+  };
+
+  function renderQuestion() {
+    const item = questions[current];
+    qCountEl.textContent = "Question " + (current + 1) + " of " + questions.length;
+    progressFill.style.width = (current / questions.length * 100) + "%";
+
+    const badgeText = item.type === "multi" ? "Choose exactly TWO answers" : "Choose ONE answer";
+
+    quizArea.innerHTML =
+      '<div class="type-badge">' + badgeText + "</div>" +
+      '<div class="question">' + item.q + "</div>" +
+      '<div id="answerArea"></div>';
+
+    const area = document.getElementById("answerArea");
+
+    if (item.type === "single") {
+      item.options.forEach((text, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "opt" + (answers[current] === idx ? " selected" : "");
+        btn.textContent = text;
+        btn.onclick = function () { answers[current] = idx; renderQuestion(); };
+        area.appendChild(btn);
+      });
+    }
+
+    if (item.type === "multi") {
+      if (!Array.isArray(answers[current])) answers[current] = [];
+      const picked = answers[current];
+
+      const counter = document.createElement("div");
+      counter.className = "counter-text";
+      counter.textContent = "Selected " + picked.length + " of 2";
+      area.appendChild(counter);
+
+      item.options.forEach((text, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "opt" + (picked.includes(idx) ? " selected" : "");
+        btn.textContent = text;
+        btn.onclick = function () {
+          const pos = picked.indexOf(idx);
+          if (pos > -1) picked.splice(pos, 1);
+          else if (picked.length < 2) picked.push(idx);
+          renderQuestion();
+        };
+        area.appendChild(btn);
+      });
+    }
+
+    // Sequential-only: this is the ONLY way forward. No back button, no skipping around.
+    nextBtn.textContent = (current === questions.length - 1) ? "Finish Exam" : "Next question →";
+  }
+
+  // "Next" moves forward only — once you leave a question, you can't return to it.
+  nextBtn.onclick = function () {
+    if (current < questions.length - 1) { current += 1; renderQuestion(); }
+    else { submitExam(); }
+  };
+
+  function updateTimerDisplay() {
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    timerEl.textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    if (timeLeft <= 60) timerEl.classList.add("low-time");
+  }
+
+  function startTimer() {
+    updateTimerDisplay();
+    timerId = setInterval(function () {
+      timeLeft -= 1;
+      updateTimerDisplay();
+      if (timeLeft <= 0) { clearInterval(timerId); submitExam(); }
+    }, 1000);
+  }
+
+  function checkCorrect(i) {
+    const item = questions[i];
+    const a = answers[i];
+    if (item.type === "single") return a === item.correct;
+    if (item.type === "multi") {
+      if (!Array.isArray(a) || a.length !== item.correct.length) return false;
+      const sa = [...a].sort();
+      const sc = [...item.correct].sort();
+      return sa.every((v, idx) => v === sc[idx]);
+    }
+    return false;
+  }
+
+  function formatUserAnswer(i) {
+    const item = questions[i]; const a = answers[i];
+    if (item.type === "single") return a === null ? "(no answer — ran out of time)" : item.options[a];
+    if (item.type === "multi") return (!a || a.length === 0) ? "(no answer — ran out of time)" : a.map((idx) => item.options[idx]).join(" + ");
+  }
+
+  function formatCorrectAnswer(i) {
+    const item = questions[i];
+    if (item.type === "single") return item.options[item.correct];
+    if (item.type === "multi") return item.correct.map((idx) => item.options[idx]).join(" + ");
+  }
+
+  function formatTime(totalSecs) {
+    const m = Math.floor(totalSecs / 60);
+    const s = totalSecs % 60;
+    return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  function submitExam() {
+    if (finished) return;
+    finished = true;
+    clearInterval(timerId);
+
+    let score = 0;
+    questions.forEach((q, i) => { if (checkCorrect(i)) score += 1; });
+    const percent = Math.round((score / questions.length) * 100);
+    const timeUsed = totalSeconds - timeLeft;
+
+    let verdict = "";
+    if (percent >= 85) verdict = "Strong result — this module looks solid.";
+    else if (percent >= 65) verdict = "Decent — review the missed questions below before moving on.";
+    else verdict = "Needs another pass — re-study this module, then retry.";
+
+    const today = new Date();
+    const dateStr = today.toLocaleDateString() + " " + today.toLocaleTimeString();
+    window._lastScore = score; window._lastPercent = percent; window._lastVerdict = verdict;
+    window._lastDateStr = dateStr; window._lastTimeUsed = timeUsed;
+
+    let reviewHtml = "";
+    questions.forEach((q, i) => {
+      const correct = checkCorrect(i);
+      reviewHtml += '<div class="review-item ' + (correct ? "review-correct" : "review-wrong") + '">' +
+        '<div class="review-q">Q' + (i + 1) + ". " + q.q + "</div>" +
+        '<div class="review-line">' + studentName + "'s answer: " + formatUserAnswer(i) + "</div>" +
+        '<div class="review-line">Correct answer: ' + formatCorrectAnswer(i) + "</div>" +
+        '<div class="review-explain">Why: ' + q.explain + "</div>" +
+        "</div>";
+    });
+
+    quizArea.innerHTML =
+      '<div class="report-header">' +
+        '<div class="report-title">📋 Practice Exam Report Card</div>' +
+        '<table class="report-table">' +
+          "<tr><td>Student</td><td>" + studentName + "</td></tr>" +
+          "<tr><td>Email</td><td>" + (studentEmail || "(not entered)") + "</td></tr>" +
+          "<tr><td>Phone</td><td>" + (studentPhone || "(not entered)") + "</td></tr>" +
+          "<tr><td>Module</td><td>" + MODULE_NAME + "</td></tr>" +
+          "<tr><td>Date</td><td>" + dateStr + "</td></tr>" +
+          "<tr><td>Score</td><td>" + score + " / " + questions.length + " (" + percent + "%)</td></tr>" +
+          "<tr><td>Time used</td><td>" + formatTime(timeUsed) + " of " + formatTime(totalSeconds) + "</td></tr>" +
+        "</table>" +
+        '<div class="report-verdict">' + verdict + " (Simple percent score — the real exam uses its own 100–900 scaled score.)</div>" +
+        '<button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save Report Card as PDF</button>' +
+        '<button class="action-btn email-btn no-print" onclick="emailReport()">📧 Email My Report Card</button>' +
+        '<div class="email-note no-print">Opens your email app with the report pre-filled, addressed to you and CC\'d to your tutor (' + TUTOR_EMAIL + '). Just hit send.</div>' +
+      "</div>" +
+      '<div class="review-list">' + reviewHtml + "</div>";
+
+    document.getElementById("topBar").classList.add("hidden");
+    document.querySelector(".progress-track").classList.add("hidden");
+    document.getElementById("navBar").classList.add("hidden");
+  }
+
+  function emailReport() {
+    const subject = "Practice Exam Report - " + MODULE_NAME + " - " + studentName;
+    const bodyLines = [
+      "Student: " + studentName,
+      "Phone: " + (studentPhone || "(not entered)"),
+      "Module: " + MODULE_NAME,
+      "Date: " + window._lastDateStr,
+      "Score: " + window._lastScore + " / " + questions.length + " (" + window._lastPercent + "%)",
+      "Time used: " + formatTime(window._lastTimeUsed) + " of " + formatTime(totalSeconds),
+      "Result: " + window._lastVerdict,
+      "",
+      "(This is a summary. Full question-by-question explanations are on screen / in the printed report.)"
+    ];
+    const mailLink = "mailto:" + encodeURIComponent(studentEmail) +
+      "?cc=" + encodeURIComponent(TUTOR_EMAIL) +
+      "&subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(bodyLines.join("\n"));
+    window.location.href = mailLink;
+  }
+
+</script>
+</body>
+</html>
