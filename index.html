@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>N10-009 Exam Practice</title>
+<style>
+  :root {
+    --paper: #f6f5f1;
+    --ink: #1c2a3a;
+    --grey: #5b6472;
+    --line: #dcd8cf;
+    --card: #ffffff;
+    --mono: "SFMono-Regular", "Courier New", Courier, monospace;
+
+    --d1: #2b4c7e; --d1-soft: #e7edf5;
+    --d2: #2f7d6e; --d2-soft: #e5f1ee;
+    --d3: #a8791f; --d3-soft: #f4ecdb;
+    --d4: #b3462c; --d4-soft: #fbebe6;
+    --d5: #6b4c8a; --d5-soft: #ece5f2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  a { color: inherit; }
+  .shell { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+  header { padding: 56px 0 28px; border-bottom: 1px solid var(--line); }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 38px; font-weight: 700; margin: 0 0 14px; letter-spacing: -0.01em;
+  }
+  .lede { font-size: 17px; color: var(--grey); max-width: 58ch; margin: 0 0 18px; }
+  .disclaimer {
+    font-size: 13px; color: var(--grey); border-left: 2px solid var(--line);
+    padding-left: 12px; max-width: 58ch; margin: 0 0 10px;
+  }
+  .disclaimer:last-of-type { margin-bottom: 0; }
+
+  ol.quizlist { list-style: none; margin: 36px 0; padding: 0; counter-reset: quiznum; }
+  ol.quizlist li {
+    counter-increment: quiznum;
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 16px 14px; border-radius: 8px; position: relative;
+    border-left: 4px solid var(--accent, var(--d1));
+    margin-bottom: 6px;
+  }
+  ol.quizlist li:hover { background: var(--accent-soft, var(--d1-soft)); }
+  .num {
+    font-family: Georgia, serif; font-size: 22px; font-weight: 700;
+    color: var(--accent, var(--d1)); min-width: 26px;
+  }
+  .res-body a {
+    font-weight: 600; font-size: 16.5px; text-decoration: none; border-bottom: 1px solid transparent;
+  }
+  .res-body a:hover { border-bottom-color: currentColor; }
+  .res-body p { margin: 3px 0 0; font-size: 13.5px; color: var(--grey); }
+  .res-body .file { font-family: var(--mono); font-size: 11.5px; color: var(--grey); margin-top: 4px; display: block; }
+
+  li:nth-child(1) { --accent: var(--d1); --accent-soft: var(--d1-soft); }
+  li:nth-child(2) { --accent: var(--d1); --accent-soft: var(--d1-soft); }
+  li:nth-child(3) { --accent: var(--d1); --accent-soft: var(--d1-soft); }
+  li:nth-child(4) { --accent: var(--d3); --accent-soft: var(--d3-soft); }
+  li:nth-child(5) { --accent: var(--d2); --accent-soft: var(--d2-soft); }
+  li:nth-child(6) { --accent: var(--d3); --accent-soft: var(--d3-soft); }
+  li:nth-child(7) { --accent: var(--d4); --accent-soft: var(--d4-soft); }
+  li:nth-child(8) { --accent: var(--d5); --accent-soft: var(--d5-soft); }
+
+  footer {
+    border-top: 1px solid var(--line); margin-top: 20px; padding: 26px 0 60px;
+    font-size: 12.5px; color: var(--grey);
+  }
+  footer p { margin: 0 0 8px; max-width: 60ch; }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header>
+    <h1>N10-009 Exam Practice</h1>
+    <p class="lede">Free interactive practice quizzes for the CompTIA Network+ (N10-009) certification. Each one is timed at the real exam's pace and ends with a printable, emailable report card.</p>
+    <p class="disclaimer">Unofficial and independently created. Not affiliated with, endorsed by, or sponsored by CompTIA. &ldquo;CompTIA&rdquo; and &ldquo;Network+&rdquo; are trademarks of CompTIA, Inc.</p>
+    <p class="disclaimer">Each quiz asks for your name, email, and phone number before starting &mdash; used only for your own report card.</p>
+  </header>
+
+  <ol class="quizlist">
+    <li>
+      <span class="num">1</span>
+      <div class="res-body">
+        <a href="1_osi_practice.html">The OSI Model</a>
+        <p>Domain 1.1 &mdash; 25 questions on the 7-layer model, encapsulation, and PDUs.</p>
+        <span class="file">1_osi_practice.html</span>
+      </div>
+    </li>
+    <li>
+      <span class="num">2</span>
+      <div class="res-body">
+        <a href="2_domain1_full_practice.html">Domain 1 &mdash; Full Practice Exam</a>
+        <p>29 questions covering all of Domain 1: OSI, devices, cloud, protocols, media, topology, addressing, and modern trends.</p>
+        <span class="file">2_domain1_full_practice.html</span>
+      </div>
+    </li>
+    <li>
+      <span class="num">3</span>
+      <div class="res-body">
+        <a href="3_domain1_extra_practice.html">Domain 1 &mdash; Extra Practice Set</a>
+        <p>47 additional questions, a larger practice set for Domain 1.</p>
+        <span class="file">3_domain1_extra_practice.html</span>
+      </div>
+    </li>
+    <li>
+      <span class="num">4</span>
+      <div class="res-body">
+        <a href="4_dns_dhcp_snmp_tools_practice.html">DNS, DHCP, SNMP &amp; Tools</a>
+        <p>25 questions on name resolution, DHCP, SNMP monitoring, and troubleshooting commands.</p>
+        <span class="file">4_dns_dhcp_snmp_tools_practice.html</span>
+      </div>
+    </li>
+    <li>
+      <span class="num">5</span>
+      <div class="res-body">
+        <a href="5_domain2_practice.html">Domain 2 &mdash; Network Implementation</a>
+        <p>25 questions on routing, switching, wireless, and physical installations.</p>
+        <span class="file">5_domain2_practice.html</span>
+      </div>
+    </li>
+    <li>
+      <span class="num">6</span>
+      <div class="res-body">
+        <a href="6_domain3_practice.html">Domain 3 &mdash; Network Operations</a>
+        <p>25 questions on operations, monitoring, and disaster recovery.</p>
+        <span class="file">6_domain3_practice.html</span>
+      </div>
+    </li>
+    <li>
+      <span class="num">7</span>
+      <div class="res-body">
+        <a href="7_domain4_practice.html">Domain 4 &mdash; Network Security</a>
+        <p>25 questions on security fundamentals, attacks, and defenses.</p>
+        <span class="file">7_domain4_practice.html</span>
+      </div>
+    </li>
+    <li>
+      <span class="num">8</span>
+      <div class="res-body">
+        <a href="8_domain5_practice.html">Domain 5 &mdash; Network Troubleshooting</a>
+        <p>25 questions on troubleshooting methodology, cabling, performance, and tools.</p>
+        <span class="file">8_domain5_practice.html</span>
+      </div>
+    </li>
+  </ol>
+
+  <footer>
+    <p>All practice questions are original content, written and verified for accuracy against the official N10-009 exam objectives &mdash; none are copied from any brain-dump or leaked source.</p>
+    <p>&copy; 2026 Shabanam Bano Ansari. &ldquo;CompTIA&rdquo; and &ldquo;Network+&rdquo; are registered trademarks of CompTIA, Inc., used here only to describe the subject matter of this study material.</p>
+  </footer>
+</div>
+
+</body>
+</html>
